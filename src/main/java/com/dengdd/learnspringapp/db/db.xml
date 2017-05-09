@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 引入属性文件，添加context的xsd -->
+	<context:property-placeholder location="classpath*:com/dengdd/learnspringapp/db/jdbc.properties"
+		file-encoding="utf-8"></context:property-placeholder>
+
+	<!-- 等同于 -->
+	<!-- <bean class="org.springframe.beans.factory.config.PropertyPlacehoderConfigurer" p:location="classpath*:jdbc.properties" -->
+	<!-- p:fileEncoding="uft-8"></bean> -->
+
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" p:driverClassName="${jdbc.driverClassName}" -->
+	<!-- p:url="${jdbc.url}" p:username="${jdbc.username}" p:password="${jdbc.password}"></bean> -->
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" p:driverClassName="${jdbc.driverClassName}"
+	p:url="${jdbc.url}" p:username="${jdbc.username}" p:password="${jdbc.password}"></bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource"></bean>
+	<!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"></bean> -->
+</beans>
+

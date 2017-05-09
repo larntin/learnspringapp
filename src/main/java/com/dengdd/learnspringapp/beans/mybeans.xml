@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 构造函数注入 -->
+	<bean id="myjuggler" class="com.dengdd.learnspringapp.beans.Juggler">
+		<constructor-arg value="15"></constructor-arg>
+	</bean>
+	
+	<!-- 构造函数注入带参数 -->
+	<bean id="sonnet29_1" class="com.dengdd.learnspringapp.beans.Sonnet29"> </bean>
+	<bean id="poeticJuggler1" class="com.dengdd.learnspringapp.beans.PoeticJuggler">
+		<constructor-arg value="15" index="0"></constructor-arg>
+		<constructor-arg ref="sonnet29_1" index="1"></constructor-arg>
+	</bean>
+	
+	<!-- 静态工厂类 -->
+	<bean id="stage" class="com.dengdd.learnspringapp.beans.Stage" factory-method="getInstance">
+	</bean>
+</beans>
+

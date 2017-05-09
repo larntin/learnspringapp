@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+	<bean id="sonnet29_1" class="com.dengdd.learnspringapp.beans.Sonnet29">
+	</bean>
+	<bean id="poeticJuggler1" class="com.dengdd.learnspringapp.beans.PoeticJuggler">
+		<constructor-arg value="26" index="0"></constructor-arg>
+		<constructor-arg ref="sonnet29_1" index="1"></constructor-arg>
+	</bean>
+
+	<!-- around切面测试 -->
+	<bean id="audience1" class="com.dengdd.learnspringapp.aop.Audience"></bean>
+	<bean id="announcer1" class="com.dengdd.learnspringapp.aop.Announcer"></bean>
+
+	<!-- 带参数的切面测试 -->
+	<bean id="volunteer1" class="com.dengdd.learnspringapp.aop.Volunteer"></bean>
+	<bean id="magicn1" class="com.dengdd.learnspringapp.aop.Magican"></bean>
+
+	<aop:config>
+		<aop:aspect ref="announcer1">
+			<aop:after pointcut="execution(* com.dengdd.learnspringapp.aop.Audience.takeSeat(..))" method="announce"></aop:after>
+		</aop:aspect>
+
+		<aop:aspect ref="audience1">
+			<aop:pointcut expression="execution(* com.dengdd.learnspringapp.beans.Performer.perform(..))" id="perform_pointcut" />
+			<aop:after method="applaud" pointcut-ref="perform_pointcut" />
+		</aop:aspect>
+
+		<!-- around切面测试 -->
+		<aop:aspect ref="audience1">
+			<aop:pointcut expression="execution(* com.dengdd.learnspringapp.beans.Performer.perform(..))" id="perform_pointcut1" />
+			<aop:around method="watchPerformce" pointcut-ref="perform_pointcut1" />
+		</aop:aspect>
+
+		<!-- 带参数的切面测试 -->
+		<aop:aspect ref="magicn1">
+			<aop:pointcut expression="execution(* com.dengdd.learnspringapp.aop.Thinker.thinkOfSomething(String)) and args(throughts)" id="thinksometing1" />
+			<aop:after method="interceptThrought" arg-names="throughts" pointcut-ref="thinksometing1" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>
